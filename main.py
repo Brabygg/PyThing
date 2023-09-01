@@ -1,8 +1,8 @@
 from random import randint
 
-var = "\nBalls"
-
-print("Hello world!" + var)
-
-for i in range(1000):
-    print(f"On a scale from one to ten, I rate Python programming {randint(1, 10)}")
+res = input("Pick a random number from 1 - 65 536: ")
+if (int(res) == randint(1, 65536)):
+    print("Somehow, you were actually correct! Congrats!")
+else:
+    print("WRONG!")
+input()
