@@ -3,7 +3,7 @@ from random import randint
 rand_num = randint(1, 10000)
 correct = False
 
-prizes = [
+prizes = (
     "a live grenade",
     "authentic Siberian ice, stored in a pizza oven",
     "pizza, encased in Siberian ice",
@@ -12,7 +12,7 @@ prizes = [
     "a spare Alloush",
     "a year's supply of antimatter (antimatter-proof containment not included)",
     "a lifetime supply of auto-installing Windows updates"
-]
+)
 
 res = input("Pick a random number from 1 - 10000. You get ten guesses: ")
 for i in range(9):
