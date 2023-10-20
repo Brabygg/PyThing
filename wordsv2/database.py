@@ -43,12 +43,23 @@ def add_to_table(cursor, connection, db, native, trans):
         return 1
     
 def remove_from_table(cursor, connection, db, id):
-    try:
+    #try:
+        cursor.execute(f"""CREATE TABLE temp (
+                        id INTEGER PRIMARY KEY,
+                        native STRING NOT NULL,
+                        trans STRING NOT NULL)""")
         cursor.execute(f"DELETE FROM {db} WHERE id={id}")
+        cursor.execute(f"SELECT * FROM {db}")
+        for data in cursor:
+            cursor.execute(f"""INSERT INTO temp (native, trans)
+                            VALUES ('{data[1]}', '{data[2]}')""")
+        cursor.execute(f"DROP TABLE {db}")
+        cursor.execute(f"""ALTER TABLE temp
+                        RENAME TO {db}""")
         connection.commit()
         return 0
-    except:
-        return 1
+    #except:
+        #return 1
     
 def edit_value(cursor, connection, db, id, native, trans):
     try:
@@ -64,7 +75,9 @@ def list_all_tables(cursor):
     tables = []
 
     try:
-        cursor.execute("SHOW TABLES")
+        cursor.execute("""SELECT name FROM sqlite_schema
+                       WHERE type='table'
+                       ORDER BY name""")
         for table in cursor:
             tables.append(table)
         return tables
