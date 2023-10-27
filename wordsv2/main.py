@@ -1,15 +1,40 @@
 import database as db
 import os
 import sys
-from random import choice
+from random import randint, choice
+
+top_menu_splashes = [
+    "Please don't use this program to recreate 9/11.\nI dunno how you would actually do that, but don't.",
+    "What's that behind you?",
+    "Hey, your hair looks nice today. New cut?",
+    "cls()\ndisplay_splash()\ntop_menu()",
+    "Get some more practice in. Please. I don't want my process to die.",
+    "Translate 'bollar' to English:",
+    "Accusations of the developer being a furry are baseless, and they find it greatly insulting.",
+    "'Nya~ :3'\n  // The developer",
+    "Also try Wordlings v2!",
+    "The developer explaining why a program like this needs a main menu splash screen:\n(it doesn't)",
+    "Sponsored: Redeem a free ticket for American Airlines Flight 11 TODAY by visiting\nhttps://brabygg.github.io/LEGITGIVEAWAY/LEGITGIVEAWAY.html"
+]
+
+new_list_suggestions = [
+    "Language" + str(randint(1, 5)),
+    "List" + str(randint(1, 5)),
+    "Balls",
+    "My Word List",
+    "Unnamed 0",
+    "Untitled",
+    "9/11 Vocabulary",
+    "En Passant Jokes"
+]
 
 connection, cursor = db.connect_to_database('words.db')
 target = None
 
 def main():
     cls()
-    print("THE FUNNY WORD PRACTICE THING, WHERE YOU CAN PRACTICE WORDS AND ALSO DO OTHER THINGS LIKE CHANGE WHICH WORDS TO PRACTICE")
-    print("THIS PROGRAM USES A DATABASE AND IS VERY COOL AND GOOD AND FUNNY AND OTHER POSITIVE ADJECTIVES")
+    print("Word Practice Assistant")
+    print("Developed by Nils K // Brabygg")
     print("---\n")
     top_menu()
 
@@ -29,7 +54,13 @@ def top_menu():
         cls()
         top_menu()
 
+def display_splash():
+    print(choice(top_menu_splashes))
+    print("---\n")
+
 def start_practice():
+    global target
+
     cls()
     words = []
     length = 0
@@ -41,6 +72,7 @@ def start_practice():
             edit_tables()
         elif res == "2":
             cls()
+            display_splash()
             top_menu()
         else:
             start_practice()
@@ -55,9 +87,11 @@ def start_practice():
     if not match_found:
         res = input(f"Word list '{target}' does not exist, possibly due to being removed. Please select or create a different one.\nWould you like to do this now?\n1 - Yes | 2 - No\n").strip()
         if res == "1":
+            target = None
             edit_tables()
         elif res == "2":
             cls()
+            display_splash()
             top_menu()
         else:
             start_practice()
@@ -72,6 +106,7 @@ def start_practice():
             edit_list()
         elif res == "2":
             cls()
+            display_splash()
             top_menu()
         else:
             start_practice()
@@ -87,10 +122,10 @@ def start_practice():
         else:
             print("Incorrect.\n")
         guesses += 1
-        print(guesses)
 
     input(f"You have correctly guessed all {length} words in {guesses} guesses!\nPress ENTER to continue:\n")
     cls()
+    display_splash()
     top_menu()
 
 
@@ -136,6 +171,7 @@ def edit_list():
 
     elif res == "3":
         cls()
+        display_splash()
         top_menu()
 
     else:
@@ -154,7 +190,7 @@ def edit_tables():
     if res == "1":
         name = input("Give the word list a name: ")
         if name == "1" or name == "2" or name == "3":
-            input(f"That value is reserved for system functions and not permitted for use. How about 'Language{name}'?\nPress ENTER to continue:\n")
+            input(f"That value is reserved for system functions and not permitted for use. How about '{choice(new_list_suggestions)}'?\nPress ENTER to continue:\n")
             edit_tables()
         e_c = db.create_table(cursor, connection, name.capitalize())
 
@@ -185,6 +221,7 @@ def edit_tables():
 
     elif res == "3":
         cls()
+        display_splash()
         top_menu()
 
     else:
