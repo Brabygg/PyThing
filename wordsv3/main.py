@@ -268,8 +268,10 @@ def print_table(table):
     for entry in entries:
         labels[i].grid(row=i+1, sticky=tk.N)
         buttons[i].grid(row=i+1, column=1, sticky=tk.W)
-        buttons[i].config(command=lambda: remove_entry(entry[0]), text=entry[0])
+        buttons[i].config(command=lambda: remove_entry(i), text=entry[0])
         i += 1
+
+    i = 5
 
     #print(buttons[0].cget("command"))
 
