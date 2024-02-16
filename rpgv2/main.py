@@ -1,6 +1,7 @@
-import loc
+import classes
 import things
 import random as r
+import os
 
 map_x = 10
 map_y = 10
@@ -8,7 +9,7 @@ enemy_chance = 10
 item_chance = 10
 wall_chance = 25
 
-generating = True
+player = classes.player(100, 100, [], 0)
 
 map = None
 
@@ -16,7 +17,7 @@ def main():
     global map
 
     while True:
-        map = loc.create_map(map_x, map_y, enemy_chance, item_chance, wall_chance)
+        map = classes.create_map(map_x, map_y, item_chance, wall_chance)
         move_to_room(r.randint(0, map_x - 1), r.randint(0, map_y - 1), None)
 
 def display_map(cur_x, cur_y):
@@ -45,8 +46,18 @@ def display_map(cur_x, cur_y):
 
     print(output)
 
+def display_inv():
+    print("-- CURRENT STATUS --")
+    print(f"Health: {player.health}/{player.max_health}")
+    if len(player.inventory) == 0:
+        print("Inventory empty.")
+    else:
+        print("Inventory:")
+        for item in player.inventory:
+            print(f"- {item}")
+    print(f"Kills: {player.kills}\n")
+
 def move_to_room(x, y, dir):
-    global generating
 
     target_room = None
 
@@ -56,20 +67,24 @@ def move_to_room(x, y, dir):
 
     for room in map:
         if room.x == x and room.y == y and room.wall:
-            if not generating:
-                print(r.choice(things.wall_block))
+            print(r.choice(things.wall_block))
             return
 
-    generating = False
-
+    i = 0
+    target_found = False
     for room in map:
         if room.x == x and room.y == y:
-            room.visited = True
+            target_found = True
         if (room.x == x and (room.y == y or room.y == y + 1 or room.y == y - 1))\
         or (room.x == x - 1 and (room.y == y or room.y == y + 1 or room.y == y - 1))\
         or (room.x == x + 1 and (room.y == y or room.y == y + 1 or room.y == y - 1)):
-            target_room = room
             room.seen = True
+        if not target_found:
+            i += 1
+
+    map[i].visited = True
+
+    os.system("cls" if os.name == "nt" else "clear")
 
     if dir == None:
         print("You find yourself in a nondescript room.")
@@ -77,9 +92,17 @@ def move_to_room(x, y, dir):
         new_text = r.choice(things.new_room)
         print(new_text[0] + dir + new_text[1])
 
-    if target_room.enemy != None:
+    if r.randint(0, 100) <= enemy_chance:
         new_text = r.choice(things.enemy_encounter)
-        print(new_text[0] + target_room.enemy + new_text[1])
+        new_enemy = r.choice(things.enemies)
+        print(new_text[0] + new_enemy + new_text[1])
+        begin_combat(new_enemy, r.randint(1, 15))        
+
+    if map[i].item != None:
+        new_text = r.choice(things.item_pickup)
+        print(new_text[0] + map[i].item + new_text[1])
+        player.inventory.append(map[i].item)
+        map[i].item = None
 
     print("\n1: NORTH\n2: SOUTH\n3: EAST\n4: WEST\nFor further commands, type \"help\".")
 
@@ -96,8 +119,15 @@ def move_to_room(x, y, dir):
             move_to_room(x, y - 1, "west")
 
         elif command == "help":
-            print("\n'map' -- Display the map.")
+            print("\n'map' -- Display the map.\n'inv' -- Display player status.")
         elif command == "map":
             display_map(x, y)
+        elif command == "inv":
+            display_inv()
+
+def begin_combat(enemy, strength):
+    print(f"You are fighting a {enemy}.")
+
+    input("What do you do?")
 
 main()

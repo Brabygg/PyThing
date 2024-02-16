@@ -9,10 +9,10 @@ enemies = [
 items = [
     "Pair of Aluminum Spheres",
     "Unusually Long Shortsword",
-    "Half a Naginata",
+    "Half Naginata",
     "Voucher for One Free Hug",
-    "A Crusty Sock",
-    "A Pretty Rock"
+    "Crusty Sock",
+    "Pretty Rock"
 ]
 
 new_room = [
@@ -33,6 +33,14 @@ wall_block = [
     "There's a strange forcefield in your way. No, wait, it's just a wall."
 ]
 
+item_pickup = [
+    ("You find a ", " on the ground, and pick it up."),
+    ("There's a ", " lying on the floor here. It's yours now."),
+    ("You are simply so much of a kleptomaniac that you can't help but grab this " , " off the floor."),
+    ("You hastily pocket a ", "."),
+    ("Nervously glancing around, you swipe a ", " from no one in particular.")
+]
+
 enemy_encounter = [
     ("Oh no, it's a ", "!"),
     ("An enemy is en route: ", "!"),
@@ -41,4 +49,13 @@ enemy_encounter = [
     ("You find treasure! No, wait, it's just another ", "."),
     ("A ", " takes the stage!"),
     ("There's an elephant in the room. Also, a ", ".")
+]
+
+enemy_defeat = [
+    ("", " was defeated."),
+    ("You wipe the ", " blood from your hands and continue on your way."),
+    ("The ", " was violently obliterated."),
+    ("\"And when the smoke cleared, one ", " lay dead...\""),
+    ("You have successfully reduced the ", " population by one."),
+    ("You carve a trophy from the dead ", " and move on.")
 ]
