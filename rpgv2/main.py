@@ -87,10 +87,10 @@ def move_to_room(x, y, dir):
     os.system("cls" if os.name == "nt" else "clear")
 
     if dir == None:
-        print("You find yourself in a nondescript room.")
+        print("You find yourself in a nondescript room.\n")
     else:
         new_text = r.choice(things.new_room)
-        print(new_text[0] + dir + new_text[1])
+        print(new_text[0] + dir + new_text[1] + "\n")
 
     if r.randint(0, 100) <= enemy_chance:
         new_text = r.choice(things.enemy_encounter)
@@ -103,12 +103,14 @@ def move_to_room(x, y, dir):
         print(new_text[0] + map[i].item + new_text[1])
         player.inventory.append(map[i].item)
         map[i].item = None
+    
+    display_map(x, y)
 
     print("\n1: NORTH\n2: SOUTH\n3: EAST\n4: WEST\nFor further commands, type \"help\".")
 
     while True:
-        command = input("What do you do?\n").strip()
-        
+        command = input("What do you do?\n").strip().lower()
+
         if command == "1":
             move_to_room(x - 1, y, "north")
         elif command == "2":
@@ -128,6 +130,20 @@ def move_to_room(x, y, dir):
 def begin_combat(enemy, strength):
     print(f"You are fighting a {enemy}.")
 
-    input("What do you do?")
+    enemy_health = strength * 15
+    enemy_damage = strength * 5
+
+    active = True
+    while active:
+        print("1: STRIKE\n2: DEFEND\n3: FLEE")
+
+    command = input("What do you do?").strip().lower()
+
+    if command == "1":
+        enemy_health -= 30 * r.random() + 1
+    elif command == "2":
+        pass
+    elif command == "3":
+        pass
 
 main()
