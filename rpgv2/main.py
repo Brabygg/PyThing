@@ -128,22 +128,33 @@ def move_to_room(x, y, dir):
             display_inv()
 
 def begin_combat(enemy, strength):
-    print(f"You are fighting a {enemy}.")
 
     enemy_health = strength * 15
+    enemy_max_health = enemy_health
     enemy_damage = strength * 5
 
     active = True
     while active:
+        print(f"You are fighting a {enemy}.")
+        print(f"Enemy's health: {enemy_health}/{enemy_max_health} | Your health: {player.health}/{player.max_health}")
         print("1: STRIKE\n2: DEFEND\n3: FLEE")
 
-    command = input("What do you do?").strip().lower()
+        command = input("What do you do?\n").strip().lower()
 
-    if command == "1":
-        enemy_health -= 30 * r.random() + 1
-    elif command == "2":
-        pass
-    elif command == "3":
-        pass
+        if command == "1":
+            roll = r.random()
+            damage = round(30 * roll) + 1
+            enemy_health -= damage
+            new_text = None
+            if roll > 0.5:
+                new_text = r.choice(things.player_attack_strong)
+            else:
+                new_text = r.choice(things.player_attack_weak)
+            os.system("cls" if os.name == "nt" else "clear")
+            print(new_text[0] + enemy + new_text[1])
+        elif command == "2":
+            pass
+        elif command == "3":
+            pass
 
 main()

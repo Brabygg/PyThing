@@ -59,3 +59,19 @@ enemy_defeat = [
     ("You have successfully reduced the ", " population by one."),
     ("You carve a trophy from the dead ", " and move on.")
 ]
+
+player_attack_weak = [
+    ("You perform a three-hit combo on the ", " in only two moves. Wow, you're good!"),
+    ("You attempt to snap the ", "'s neck, but only manage to make it look left quickly."),
+    ("You take a pose for a crane kick. The ", " laughs so hard it actually hurts."),
+    ("You hit the ", ". It takes damage. It really is that simple sometimes."),
+    ("You attempt to punch the ", " in the face, but it moves its head and takes little damage.")
+]
+
+player_attack_strong = [
+    ("Words cannot describe what you just did to the ", "."),
+    ("You help the ", " examine the ground from up close, repeatedly."),
+    ("You demonstrate the principle of inertia using your fist and the ", "'s face."),
+    ("You manage to tear off a piece of the ", "'s health bar and proceed to beat the enemy with it repeatedly."),
+    ("You sneeze. The ", " flies backwards into a stone pillar.")
+]
