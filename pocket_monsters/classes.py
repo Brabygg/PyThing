@@ -1,4 +1,4 @@
-from random import randint
+from random import randint, choice
 from enum import Enum
 
 class Types(Enum):
@@ -30,38 +30,109 @@ class Stats:
         self.speed = speed
 
 class Pokemon:
-    def __init__(self, id : int, name : str, nick : str, element : list, stats : Stats):
+    def __init__(self, id : int, name : str, nick : str, element : list, stats : Stats, woman : bool, shiny : bool, nature : list):
         self.id = id
-        self.woman = True if randint(1, 2) == 1 else False
-        self.shiny = True if randint(1, 8192) == 1 else False
         self.name = name
         self.nick = nick
         self.element = element
         self.stats = stats
+        self.woman = woman
+        self.shiny = shiny
+        self.nature = nature
+
+def generate_pokemon(id : int, name : str, nick : str, element : list, stats : Stats):
+    woman = True if randint(1, 2) == 1 else False
+    shiny = True if randint(1, 8192) == 1 else False
+    
+    nature = natures[choice(list(natures.keys()))]
+    if nature[0] == "attack":
+        stats.attack *= 1.1
+    if nature[0] == "defense":
+        stats.defense *= 1.1
+    if nature[0] == "sp_atk":
+        stats.sp_atk *= 1.1
+    if nature[0] == "sp_def":
+        stats.sp_def *= 1.1
+    if nature[0] == "speed":
+        stats.speed *= 1.1
+
+    if nature[1] == "attack":
+        stats.attack *= 0.9
+    if nature[1] == "defense":
+        stats.defense *= 0.9
+    if nature[1] == "sp_atk":
+        stats.sp_atk *= 0.9
+    if nature[1] == "sp_def":
+        stats.sp_def *= 0.9
+    if nature[1] == "speed":
+        stats.speed *= 0.9
+
+    stats.attack = round(stats.attack)
+    stats.defense = round(stats.defense)
+    stats.sp_atk = round(stats.sp_atk)
+    stats.sp_def = round(stats.sp_def)
+    stats.speed = round(stats.speed)
+
+    return Pokemon(id, name, nick, element, stats, woman, shiny, nature)
 
 class Trainer:
-    def __init__(self, name : str, inventory : list, party : list):
+    def __init__(self, name : str, money : int, inventory : list, party : list, box : list):
         self.name = name
+        self.money = money
         self.inventory = inventory
         self.party = party
+        self.box = box
 
-trainer_name_list = ['AdieÆthelburg', 'Angie', 'AshleighAshton', 'AubreyBarnes',
-                      'Barry', 'Basil', 'BernadineBethany', 'Braden', 'Bradley', 'Brent',
-                      'Bret', 'BrettFMOUPages in category "English given names"ABBurdineCaden',
-                      'Cadence', 'Carrington', 'Charlene', 'CharlesCharlton', 'Chay', 'DarisDarleenDarlene',
-                      'DarnellDeb', 'DemiDennisDiamond', 'Doreen', 'Dorothy', 'Dustin', 'EarleneElaine',
-                      'ElfriedeEmery', 'Emory', 'EvanGabriel', 'GeorgianaGladys', 'GreenburyGregory', 'Greig',
-                      'CDEGGwen', 'Harley', 'Hastings', 'Hazel', 'Heather', 'Helton', 'Henrietta', 'Heston',
-                      'Holly', 'Hulda', 'Increase', 'India', 'Irene', 'Jackie', 'Jade', 'January', 'Jemma',
-                      'Jenny', 'JeraldJerroldJerry', 'Jessie', 'JethroJigar', 'JillJocelynJodieJoey',
-                      'JustineKate', 'KathrynKeaton', 'KendraHIJKKerr', 'Kimball', 'Kitty', 'KristyKylie',
-                      'LarenLawrence', 'Lawson', 'LeanneLianneLouise', 'LuciMaddox', 'MalfordMarlene',
-                      'MaudMelindaMelville', 'MindyMolly', 'Mort', 'Nancy', 'Nelson', 'NigelOsbertOttiliePamela',
-                      'PascoePercyPiper', 'LMNOPPippa', 'Poppy', 'Raleigh', 'Rebecca', 'ReynoldRhoda', 'Riley',
-                      'Roland', 'RosaleenRosalie', 'Rosie', 'Ruby', 'Rupert', 'Ruth', 'Savannah', 'Scarlett',
-                      'SharonSheridan', 'Shiloh', 'Sidney', 'Stacy', 'Sue', 'Sydney', 'Tammy', 'Tim',
-                      'TimmyTimothy', 'Tracy', 'Travis', 'Trent', 'TrudieTucker', 'VelmaVicaryRSTVViolet',
-                      'Walker', 'Warren', 'Whitney', 'WilfriedWoodrow']
+random_names = [
+    'Adie', 'Angie', 'Ashleigh', 'Ashton', 'Aubrey', 'Barnes',
+    'Barry', 'Basil', 'Bernadine', 'Bethany', 'Braden', 'Bradley',
+    'Brent', 'Bret', 'Brett', 'Burdine', 'Caden','Cadence', 'Carrington',
+    'Charlene', 'Charles', 'Charlton', 'Chay', 'Daris', 'Darleen', 'Darlene',
+    'Darnell', 'Deb', 'Demi', 'Dennis', 'Diamond', 'Doreen', 'Dorothy',
+    'Dustin', 'Earlene', 'Elaine', 'Elfriede', 'Emery', 'Emory', 'Evan',
+    'Gabriel', 'Georgiana', 'Gladys', 'Greenbury', 'Gregory', 'Greig',
+    'Gwen', 'Harley', 'Hastings', 'Hazel', 'Heather', 'Helton', 'Henrietta',
+    'Heston', 'Holly', 'Hulda', 'India', 'Irene', 'Jackie', 'Jade', 'January',
+    'Jemma', 'Jenny', 'Jerald', 'Jerrold', 'Jerry', 'Jessie', 'Jethro', 'Jigar',
+    'Jill', 'Jocelyn', 'Jodie', 'Joey', 'Justine', 'Kate', 'Kathryn', 'Keaton',
+    'Kendra', 'Kerr', 'Kimball', 'Kitty', 'Kristy', 'Kylie', 'Laren', 'Lawrence',
+    'Lawson', 'Leanne', 'Lianne', 'Louise', 'Luci', 'Maddox', 'Malford', 'Marlene',
+    'Maud', 'Melinda', 'Melville', 'Mindy', 'Molly', 'Mort', 'Nancy', 'Nelson',
+    'Nigel', 'Osbert', 'Ottilie', 'Pamela', 'Pascoe', 'Percy', 'Piper', 'Pippa',
+    'Poppy', 'Raleigh', 'Rebecca', 'Reynold', 'Rhoda', 'Riley', 'Roland', 'Rosaleen',
+    'Rosalie', 'Rosie', 'Ruby', 'Rupert', 'Ruth', 'Savannah', 'Scarlett', 'Sharon',
+    'Sheridan', 'Shiloh', 'Sidney', 'Stacy', 'Sue', 'Sydney', 'Tammy', 'Tim',
+    'Timmy', 'Timothy', 'Tracy', 'Travis', 'Trent', 'Trudie', 'Tucker', 'Velma',
+    'Vicary', 'Violet', 'Walker', 'Warren', 'Whitney', 'Wilfried', 'Woodrow'
+]
+
+natures = {
+    "Hardy":["attack", "attack"],
+    "Lonely":["attack", "defense"],
+    "Brave":["attack", "speed"],
+    "Adamant":["attack", "sp_atk"],
+    "Naughty":["attack", "sp_def"],
+    "Bold":["defense", "attack"],
+    "Docile":["defense", "defense"],
+    "Relaxed":["defense", "speed"],
+    "Impish":["defense", "sp_atk"],
+    "Lax":["defense", "sp_def"],
+    "Timid":["speed", "attack"],
+    "Hasty":["speed", "defense"],
+    "Serious":["speed", "speed"],
+    "Jolly":["speed", "sp_atk"],
+    "Naive":["speed", "sp_def"],
+    "Modest":["sp_atk", "attack"],
+    "Mild":["sp_atk", "defense"],
+    "Quiet":["sp_atk", "speed"],
+    "Bashful":["sp_atk", "sp_atk"],
+    "Rash":["sp_atk", "sp_def"],
+    "Calm":["sp_def", "attack"],
+    "Gentle":["sp_def", "defense"],
+    "Sassy":["sp_def", "speed"],
+    "Careful":["sp_def", "sp_atk"],
+    "Quirky":["sp_def", "sp_def"]
+}
 
 pokemon_list = {
     "Bulbasaur":{
@@ -78,6 +149,11 @@ pokemon_list = {
         "id":82,
         "type":[Types.ELECTRIC, Types.STEEL],
         "stats":Stats(50, 60, 95, 120, 70, 70)
+    },
+    "Magikarp":{
+        "id":129,
+        "type":[Types.WATER],
+        "stats":Stats(20, 10, 55, 15, 20, 80)
     },
     "Eevee":{
         "id":133,
@@ -97,7 +173,7 @@ pokemon_list = {
     "Mareep":{
         "id":179,
         "type":[Types.ELECTRIC],
-        "status":Stats(55, 40, 40, 65, 45, 35)
+        "stats":Stats(55, 40, 40, 65, 45, 35)
     },
     "Wobbuffet":{
         "id":202,
