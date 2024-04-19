@@ -1,12 +1,19 @@
 import classes as c
+import battles as b
 import random as r
+import pickle as p
 import os
 import sys
-import json
 
 player = c.Trainer(None, 3000, [], [], [])
+opponent = None
 
 def main():
+    if os.path.isfile("./poke.sav"):
+        if input("Save file 'poke.sav' found. Would you like to load it? (y/n)\n").strip().lower() == "y":
+            load_game()
+            hub()
+
     while True:
         player.name = input("Enter your name: ").strip()
         if player.name == "":
@@ -38,7 +45,7 @@ def main():
     hub()
 
 def hub():
-    cls()
+    c.cls()
     print(f"Trainer: {player.name} [${player.money}]")
     print("\nParty:", end=" ")
     i = 0
@@ -47,12 +54,28 @@ def hub():
         i += 1
 
     print("\n[A] Proceed  [M] Shop  [P] View party summaries  [S] Save and quit")
-    while True:
+    active = True
+    while active:
         choice = input().strip().lower()
 
-        if choice == "p":
+        if choice == "a":
+            active = False
+
+            c.cls()
+            opponent = b.start_battle()
+            enemy = opponent.party[0]
+            print(f"{opponent.name} wants to battle!\n{opponent.name} sent out {enemy.name}!")
+            input()
+
+            fighter = player.party[0]
+
+            b.battle_hub(fighter.stats.hp, fighter, enemy.stats.hp, enemy)
+
+            input("Something happened, I guess")
+
+        elif choice == "p":
             print("Input the party member's index...\n[B] Back")
-            while True:
+            while active:
                 choice = input().strip().lower()
                 if choice == "b":
                     print("[A] Proceed  [M] Shop  [P] View party summaries  [S] Save and quit")
@@ -60,6 +83,7 @@ def hub():
 
                 try:
                     poke_summary(player.party[int(choice) - 1])
+                    active = False
                     hub()
                 except:
                     continue
@@ -68,8 +92,22 @@ def hub():
             save_game()
             sys.exit()
 
+def battle_win():
+    prize = round(opponent.money / 2)
+
+    input(f"{player.name} defeated {opponent.name} and received ${prize}!\n")
+    player.money += prize
+    hub()
+
+def battle_loss():
+    prize = round(player.money / 2)
+
+    input(f"{player.name} was defeated by {opponent.name} and paid ${prize} to the winner...\n")
+    player.money -= prize
+    hub()
+
 def add_poke(poke):
-    cls()
+    c.cls()
     print(f"You got {poke.name}!\nGive it a nickname? (y/n)")
     while True:
         choice = input().strip().lower()
@@ -91,7 +129,7 @@ def add_poke(poke):
         player.box.append(poke)
 
 def poke_summary(poke):
-    cls()
+    c.cls()
     print("= = = SUMMARY = = =")
     print(f"{poke.nick} ({poke.name} {'♀' if poke.woman else '♂'})")
     if poke.shiny:
@@ -105,42 +143,19 @@ def poke_summary(poke):
     input("\nPress ENTER to continue...\n")
 
 def save_game():
-    save_file = open("poke.sav", "w")
-    save_file.write("")
-    save_file.close()
+    print("Saving game...")
 
-    party = []
-    for poke in player.party:
+    with open("poke.sav", "wb") as file:
+        p.dump(player, file)
 
-        i = 0
-        for element in poke.element:
-            poke.element[i] = element.name
-            i += 1
+    print("Save complete, closing shortly.")
 
-        poke.stats = poke.stats.__dict__
-    
-        party.append(poke.__dict__)
+def load_game():
+    global player
 
-    box = []
-    for poke in player.box:
+    with open("poke.sav", "rb") as file:
+        player = p.load(file)
 
-        i = 0
-        for element in poke.element:
-            poke.element[i] = element.name
-            i += 1
-
-        poke.stats = poke.stats.__dict__
-    
-        box.append(poke.__dict__)
-
-    save_file = open("poke.sav", "a")
-    save_file.write(json.dumps([player.name, player.money]))
-    save_file.write("\n" + json.dumps(player.inventory))
-    save_file.write("\n" + json.dumps(party))
-    save_file.write("\n" + json.dumps(box))
-    save_file.close()
-
-def cls():
-    os.system("cls" if os.name == "nt" else "clear")
+    print(player.name)
 
 main()

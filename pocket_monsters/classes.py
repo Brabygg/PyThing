@@ -1,5 +1,6 @@
 from random import randint, choice
 from enum import Enum
+import os
 
 class Types(Enum):
     NORMAL = 1
@@ -14,7 +15,7 @@ class Types(Enum):
     GROUND = 10
     BUG = 11
     GHOST = 12
-    PSYCHIC= 13
+    PSYCHIC = 13
     ICE = 14
     DRAGON = 15
     STEEL = 16
@@ -84,11 +85,11 @@ class Trainer:
         self.box = box
 
 random_names = [
-    'Adie', 'Angie', 'Ashleigh', 'Ashton', 'Aubrey', 'Barnes',
+    'Adie', 'Amid', 'Amin', 'Amir', 'Angie', 'Ashleigh', 'Ashton', 'Aubrey', 'Barnes',
     'Barry', 'Basil', 'Bernadine', 'Bethany', 'Braden', 'Bradley',
     'Brent', 'Bret', 'Brett', 'Burdine', 'Caden','Cadence', 'Carrington',
     'Charlene', 'Charles', 'Charlton', 'Chay', 'Daris', 'Darleen', 'Darlene',
-    'Darnell', 'Deb', 'Demi', 'Dennis', 'Diamond', 'Doreen', 'Dorothy',
+    'Darnell', 'Deb', 'Demi', 'Dennis', 'Diamond', 'Diezel', 'Doreen', 'Dorothy',
     'Dustin', 'Earlene', 'Elaine', 'Elfriede', 'Emery', 'Emory', 'Evan',
     'Gabriel', 'Georgiana', 'Gladys', 'Greenbury', 'Gregory', 'Greig',
     'Gwen', 'Harley', 'Hastings', 'Hazel', 'Heather', 'Helton', 'Henrietta',
@@ -101,7 +102,7 @@ random_names = [
     'Nigel', 'Osbert', 'Ottilie', 'Pamela', 'Pascoe', 'Percy', 'Piper', 'Pippa',
     'Poppy', 'Raleigh', 'Rebecca', 'Reynold', 'Rhoda', 'Riley', 'Roland', 'Rosaleen',
     'Rosalie', 'Rosie', 'Ruby', 'Rupert', 'Ruth', 'Savannah', 'Scarlett', 'Sharon',
-    'Sheridan', 'Shiloh', 'Sidney', 'Stacy', 'Sue', 'Sydney', 'Tammy', 'Tim',
+    'Sheridan', 'Shiloh', 'Sidney', 'Stacy', 'Sue', 'Sven', 'Sydney', 'Tammy', 'Tim',
     'Timmy', 'Timothy', 'Tracy', 'Travis', 'Trent', 'Trudie', 'Tucker', 'Velma',
     'Vicary', 'Violet', 'Walker', 'Warren', 'Whitney', 'Wilfried', 'Woodrow'
 ]
@@ -136,48 +137,60 @@ natures = {
 
 pokemon_list = {
     "Bulbasaur":{
+        "name":"Bulbasaur",
         "id":1,
         "type":[Types.GRASS, Types.POISON],
         "stats":Stats(45, 49, 49, 65, 65, 45)
     },
     "Pikachu":{
+        "name":"Pikachu",
         "id":25,
         "type":[Types.ELECTRIC],
         "stats":Stats(35, 55, 30, 50, 40, 90)
     },
     "Magneton":{
+        "name":"Magneton",
         "id":82,
         "type":[Types.ELECTRIC, Types.STEEL],
         "stats":Stats(50, 60, 95, 120, 70, 70)
     },
     "Magikarp":{
+        "name":"Magikarp",
         "id":129,
         "type":[Types.WATER],
         "stats":Stats(20, 10, 55, 15, 20, 80)
     },
     "Eevee":{
+        "name":"Eevee",
         "id":133,
         "type":[Types.NORMAL],
         "stats":Stats(55, 55, 50, 45, 65, 55)
     },
     "Vaporeon":{
+        "name":"Vaporeon",
         "id":134,
         "type":[Types.WATER],
         "stats":Stats(130, 65, 60, 110, 95, 65)
     },
     "Dragonair":{
+        "name":"Dragonair",
         "id":148,
         "type":[Types.DRAGON],
         "stats":Stats(61, 84, 65, 70, 70, 70)
     },
     "Mareep":{
+        "name":"Mareep",
         "id":179,
         "type":[Types.ELECTRIC],
         "stats":Stats(55, 40, 40, 65, 45, 35)
     },
     "Wobbuffet":{
+        "name":"Wobbuffet",
         "id":202,
         "type":[Types.PSYCHIC],
         "stats":Stats(190, 33, 58, 33, 58, 33)
     }
 }
+
+def cls():
+    os.system("cls" if os.name == "nt" else "clear")
