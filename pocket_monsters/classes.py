@@ -21,6 +21,94 @@ class Types(Enum):
     STEEL = 16
     DARK = 17
 
+resistances = {
+    Types.NORMAL: {
+        "weak":[Types.FIGHTING],
+        "resist":[],
+        "immune":[Types.GHOST]
+    },
+    Types.FIGHTING: {
+        "weak":[Types.FLYING, Types.PSYCHIC],
+        "resist":[Types.ROCK, Types.DARK],
+        "immune":[]
+    },
+    Types.FLYING: {
+        "weak":[Types.ELECTRIC, Types.ICE, Types.ROCK],
+        "resist":[Types.GRASS, Types.FIGHTING, Types.BUG],
+        "immune":[Types.GROUND]
+    },
+    Types.FIRE: {
+        "weak":[Types.WATER, Types.GROUND, Types.ROCK],
+        "resist":[Types.FIRE, Types.GRASS, Types.ICE, Types.STEEL],
+        "immune":[]
+    },
+    Types.WATER: {
+        "weak":[Types.GRASS, Types.ELECTRIC],
+        "resist":[Types.FIRE, Types.WATER, Types.ICE, Types.STEEL],
+        "immune":[]
+    },
+    Types.GRASS: {
+        "weak":[Types.FIRE, Types.ICE, Types.POISON, Types.FLYING, Types.BUG],
+        "resist":[Types.WATER, Types.GRASS, Types.ELECTRIC, Types.GROUND],
+        "immune":[]
+    },
+    Types.ELECTRIC: {
+        "weak":[Types.GROUND],
+        "resist":[Types.ELECTRIC, Types.FLYING, Types.STEEL],
+        "immune":[]
+    },
+    Types.POISON: {
+        "weak":[Types.GROUND, Types.PSYCHIC],
+        "resist":[Types.GRASS, Types.FIGHTING, Types.POISON, Types.BUG],
+        "immune":[]
+    },
+    Types.ROCK: {
+        "weak":[Types.WATER, Types.GRASS, Types.FIGHTING, Types.GROUND, Types.STEEL],
+        "resist":[Types.NORMAL, Types.FIRE, Types.POISON, Types.FLYING],
+        "immune":[]
+    },
+    Types.GROUND: {
+        "weak":[Types.WATER, Types.GRASS, Types.ICE],
+        "resist":[Types.POISON, Types.ROCK],
+        "immune":[Types.ELECTRIC]
+    },
+    Types.BUG: {
+        "weak":[Types.FIRE, Types.FLYING, Types.ROCK],
+        "resist":[Types.GRASS, Types.ICE, Types.GROUND],
+        "immune":[]
+    },
+    Types.GHOST: {
+        "weak":[Types.GHOST, Types.DARK],
+        "resist":[Types.POISON, Types.BUG],
+        "immune":[Types.NORMAL, Types.FIGHTING]
+    },
+    Types.PSYCHIC: {
+        "weak":[Types.BUG, Types.GHOST, Types.DARK],
+        "resist":[Types.FIGHTING, Types.PSYCHIC],
+        "immune":[]
+    },
+    Types.ICE: {
+        "weak":[Types.FIRE, Types.FIGHTING, Types.ROCK, Types.STEEL],
+        "resist":[Types.ICE],
+        "immune":[]
+    },
+    Types.DRAGON: {
+        "weak":[Types.ICE, Types.DRAGON],
+        "resist":[Types.FIRE, Types.WATER, Types.GRASS, Types.ELECTRIC],
+        "immune":[]
+    },
+    Types.STEEL: {
+        "weak":[Types.FIRE, Types.FIGHTING, Types.GROUND],
+        "resist":[Types.NORMAL, Types.GRASS, Types.ICE, Types.FLYING, Types.PSYCHIC, Types.BUG, Types.ROCK, Types.DRAGON, Types.STEEL],
+        "immune":[Types.POISON]
+    },
+    Types.DARK: {
+        "weak":[Types.FIGHTING, Types.BUG],
+        "resist":[Types.GHOST, Types.DARK],
+        "immune":[Types.PSYCHIC]
+    },
+}
+
 class Stats:
     def __init__(self, hp : int, attack : int, defense : int, sp_atk : int, sp_def : int, speed : int):
         self.hp = hp

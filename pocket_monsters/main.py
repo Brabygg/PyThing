@@ -9,10 +9,16 @@ player = c.Trainer(None, 3000, [], [], [])
 opponent = None
 
 def main():
+    from_save = False
+
     if os.path.isfile("./poke.sav"):
         if input("Save file 'poke.sav' found. Would you like to load it? (y/n)\n").strip().lower() == "y":
+            from_save = True
             load_game()
             hub()
+
+    if from_save:
+        return
 
     while True:
         player.name = input("Enter your name: ").strip()
@@ -90,7 +96,6 @@ def hub():
 
         elif choice == "s":
             save_game()
-            sys.exit()
 
 def battle_win():
     prize = round(opponent.money / 2)
@@ -149,6 +154,8 @@ def save_game():
         p.dump(player, file)
 
     print("Save complete, closing shortly.")
+
+    sys.exit()
 
 def load_game():
     global player

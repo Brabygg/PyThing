@@ -89,10 +89,17 @@ def battle_hub(player_health, player, opponent_health, opponent):
 
 def print_healthbar(hp, max):
     print("[", end="")
-    print(f"{'---' if hp >= max else '   '}", end="")
-    print(f"{'---' if hp >= max * 0.75 else '   '}", end="")
-    print(f"{'---' if hp >= max * 0.5 else '   '}", end="")
-    print(f"{'---' if hp > 0 else '   '}", end="")
+    print(f"{'-' if hp >= max else ' '}", end="")
+    print(f"{'-' if hp >= max * 0.9 else ' '}", end="")
+    print(f"{'-' if hp >= max * 0.8 else ' '}", end="")
+    print(f"{'-' if hp >= max * 0.7 else ' '}", end="")
+    print(f"{'-' if hp >= max * 0.6 else ' '}", end="")
+    print(f"{'-' if hp >= max * 0.5 else ' '}", end="")
+    print(f"{'-' if hp >= max * 0.4 else ' '}", end="")
+    print(f"{'-' if hp >= max * 0.3 else ' '}", end="")
+    print(f"{'-' if hp >= max * 0.2 else ' '}", end="")
+    print(f"{'-' if hp >= max * 0.1 else ' '}", end="")
+    print(f"{'-' if hp > 0 else ' '}", end="")
     print("]")
 
 def calculate_damage(attack, defense, crit, effect_mult):
