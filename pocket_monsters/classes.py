@@ -192,7 +192,7 @@ random_names = [
     'Rosalie', 'Rosie', 'Ruby', 'Rupert', 'Ruth', 'Savannah', 'Scarlett', 'Sharon',
     'Sheridan', 'Shiloh', 'Sidney', 'Stacy', 'Sue', 'Sven', 'Sydney', 'Tammy', 'Tim',
     'Timmy', 'Timothy', 'Tracy', 'Travis', 'Trent', 'Trudie', 'Tucker', 'Velma',
-    'Vicary', 'Violet', 'Walker', 'Warren', 'Whitney', 'Wilfried', 'Woodrow'
+    'Vicary', 'Violet', 'Walter', 'Warren', 'Whitney', 'Wilfried', 'Woodrow'
 ]
 
 natures = {

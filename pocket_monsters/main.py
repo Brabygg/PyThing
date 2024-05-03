@@ -8,6 +8,8 @@ import sys
 player = c.Trainer(None, 3000, [], [], [])
 opponent = None
 
+sale_poke = []
+
 def main():
     from_save = False
 
@@ -48,6 +50,7 @@ def main():
     starter = c.generate_pokemon(select["id"], name, name, select["type"], select["stats"])
 
     add_poke(starter)
+    reroll_stock()
     hub()
 
 def hub():
@@ -75,9 +78,27 @@ def hub():
 
             fighter = player.party[0]
 
-            b.battle_hub(fighter.stats.hp, fighter, enemy.stats.hp, enemy)
+            victory = b.battle_hub(fighter, enemy)
 
-            input("Something happened, I guess")
+            input(f"{player.name} wins!" if victory else f"{player.name} has no Pokemon left!")
+            
+            if victory:
+                prize = round(opponent.money / 2)
+
+                input(f"{player.name} defeated {opponent.name} and received ${prize}!\n")
+                player.money += prize
+            else:
+                prize = round(player.money / 2)
+                player.money -= prize
+
+                input(f"{player.name} paid ${prize} to the winner...")
+
+            reroll_stock()
+            hub()
+
+        elif choice == "m":
+            c.cls()
+            shop()
 
         elif choice == "p":
             print("Input the party member's index...\n[B] Back")
@@ -97,19 +118,30 @@ def hub():
         elif choice == "s":
             save_game()
 
-def battle_win():
-    prize = round(opponent.money / 2)
+def shop():
+    print("The Slave Market:")
+    i = 1
+    for sale in sale_poke:
+        print(f"{i} - {sale['poke'].name} {'♀' if sale['poke'].woman else '♂'} (${sale['price']})")
+        i += 1
 
-    input(f"{player.name} defeated {opponent.name} and received ${prize}!\n")
-    player.money += prize
-    hub()
+    while True:
+        choice = input("\nWhat would you like to buy? ")
+        
 
-def battle_loss():
-    prize = round(player.money / 2)
+def reroll_stock():
+    global sale_poke
+    sale_poke = []
 
-    input(f"{player.name} was defeated by {opponent.name} and paid ${prize} to the winner...\n")
-    player.money -= prize
-    hub()
+    count = r.randint(1, 5)
+    for i in range(count):
+        sale_poke.append({})
+    for i in range(count):
+        poke = c.pokemon_list[r.choice(list(c.pokemon_list.keys()))]
+        instance = c.generate_pokemon(poke["id"], poke["name"], poke["name"], poke["type"], poke["stats"])
+
+        sale_poke[i]["poke"] = instance
+        sale_poke[i]["price"] = r.randint(1000, 10000)
 
 def add_poke(poke):
     c.cls()
@@ -163,6 +195,6 @@ def load_game():
     with open("poke.sav", "rb") as file:
         player = p.load(file)
 
-    print(player.name)
+    reroll_stock()
 
 main()
